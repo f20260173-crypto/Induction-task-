@@ -19,46 +19,27 @@ I first imported the Python libraries required for the analysis.
 - FuncAnimation was used to create the animated graph.
 - HTML was used to display the animation in Google Colab/Jupyter.
 
-## Question 2: Reading and Inspecting the Data
+## Question 2: Reading the data
 
-The `Depth Data.csv` file was read using Pandas and stored in a DataFrame.
-
-I then created a copy of the original data so that the original dataset would not be changed during the cleaning process.
-
-The column names were also printed to check that the data had been imported correctly.
+The `Depth Data.csv` file was read using Pandas and stored in a variable.and also changed the data type of depth tonumeric from string
 
 ## Question 3: Cleaning the Depth Data
 
-The depth values were converted into numerical values using `pd.to_numeric()`.
-
-If a value could not be converted into a number, `errors="coerce"` changed it into `NaN`.
-
-I then calculated the difference between consecutive depth readings using `.diff()`.
+I made a copy of the data to remove suspicious readings and clear the noise.and added a column of difference in depth values to the data
 
 ## Question 4: Detecting Suspicious Readings
 
-I calculated the absolute change between consecutive readings.
-
-A threshold of 25 metres was selected. If the depth changed by more than 25 metres between two consecutive readings, the reading was considered suspicious.
-
-These suspicious readings were replaced with `NaN` so that they would not affect the final analysis.
-
+I calculated the absolute change between consecutive readings.and set a threshold of 25 meters above which a reading is considered as suspicious reading.and then delegating depth data from these points.
 ## Question 5: Estimating Missing Values
 
 After removing suspicious readings, some values became missing.
-
-I used interpolation to estimate these missing values based on the surrounding valid measurements.
-
-This allowed the dataset to remain continuous.
+then I uses interpolation to fill the missing values using the data of surrounding points
 
 ## Question 6: Smoothing the Data
 
 To reduce small fluctuations in the sensor readings, I used a 5-point rolling average.
-
 This produced a new column called `Smoothed Depth (m)`.
-
-The smoothed values were used for the final graphs because they provide a clearer representation of the overall depth trend.
-
+then used these values to plot the graph
 ## Question 7: Creating the Time Data
 
 The dataset contained a `Point` column rather than an actual time column.
