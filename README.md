@@ -45,9 +45,7 @@ then used these values to plot the graph
 The dataset contained a `Point` column rather than an actual time column.
 
 I assumed that each point represented one second of data and therefore created a `Time (s)` column using:
-
 `Time = Point - 1`
-
 This made the first point correspond to 0 seconds.
 
 ## Question 8: Creating the Depth vs Time Graph
@@ -58,7 +56,6 @@ I created a graph using Matplotlib.
 - The Y-axis represents depth in metres.
 - The smoothed depth values were plotted to make the graph easier to interpret.
 
-A title and grid were also added to improve readability.
 
 ## Question 9: Creating the Animated Graph
 
@@ -71,5 +68,3 @@ This simulates how depth information could be displayed as if it were being rece
 ## Conclusion
 
 The overall approach was to first understand and clean the raw sensor data, identify and correct suspicious readings, smooth the data, and then visualize the results.
-
-This process helped demonstrate how Python can be used to analyse and visualize real-world sensor data.
