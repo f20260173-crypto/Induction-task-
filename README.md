@@ -112,6 +112,8 @@ The system contains the following states:
 - CHARYBDIS
 - WRECKED
 
+### LCD
+Used the last two pins of the ardunio in analog pins which are used for standard analog communication.
 The current state is displayed on the LCD.
 
 ### ANCHOR
@@ -133,7 +135,6 @@ And also added a variable which counted the time in storm
 ### CHARYBDIS
 
 The CHARYBDIS state is triggered when the ultrasonic sensor detects an object closer than 100 cm.
-Used the last two pins of the ardunio in analog pins which are used for standard analog communication.
 Also connected a buzzer to make sound when the ship is near Charybdis.
 
 
