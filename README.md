@@ -126,19 +126,16 @@ this runs only when time in storm and Charybdis is less than 5 sec and when the 
 
 ### STORM
 
-The storm state is triggered when the light sensor reading falls below half of its range.
-
-While in STORM, the LED blinks.
-
-If the storm ends before five seconds, the ship returns to OPEN SEA.
-
+The storm state is triggered when the light sensor reading falls below half of the maximum(which is 511 of max 1023)
+I used the analog pin to take the sensor values.
+even added I led to blink when the ship was in storm.
+And also added a variable which counted the time in storm 
 ### CHARYBDIS
 
 The CHARYBDIS state is triggered when the ultrasonic sensor detects an object closer than 100 cm.
+Used the last two pins of the ardunio in analog pins which are used for standard analog communication.
+Also connected a buzzer to make sound when the ship is near Charybdis.
 
-While in CHARYBDIS, the buzzer sounds.
-
-If the ship moves away before five seconds, it returns to OPEN SEA.
 
 ### WRECKED
 
