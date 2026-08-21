@@ -1,5 +1,5 @@
 # Induction-task-
-#SEDS avionics induction task 1
+SEDS avionics induction task 1
 
 # Ship Depth Data Analysis
 
@@ -75,10 +75,7 @@ The overall approach was to first understand and clean the raw sensor data, iden
 ## Overview
 
 Task 2 involves building an onboard monitoring system for Odysseus using Arduino and multiple sensors and output devices.
-
 The system monitors the surroundings of the ship and uses a state machine to represent different situations such as normal sailing, an anchor being dropped, a storm, Charybdis, and the ship being wrecked.
-
----
 
 ## Question 1 – Build the System
 
@@ -96,13 +93,9 @@ I built the monitoring system in Tinkercad using:
 
 I connected each component to the Arduino and used the appropriate pins for the sensors, LCD, button, LED, and buzzer.
 
-The LCD is used to display the current state of the ship. The sensors provide the information required to determine whether the ship is in normal conditions, a storm, or near Charybdis.
+The LCD is used to display the current state of the ship.that is if the ship is sailing in open sea or wrecked or in a storm,anchored ,near Charybdis 
 
-A push button is used to control the anchor.
-
-### Tinkercad Wiring
-
-A screenshot of the completed Tinkercad circuit is included in the repository.
+A push button is used to control the anchor of the ship
 
 ---
 
@@ -110,31 +103,26 @@ A screenshot of the completed Tinkercad circuit is included in the repository.
 
 ### Approach
 
-I programmed the Arduino using a state machine.
 
 The system contains the following states:
 
 - OPEN SEA
-- ANCHOR DROPPED
+- ANCHORED
 - STORM
 - CHARYBDIS
 - WRECKED
 
 The current state is displayed on the LCD.
 
+### ANCHOR
+
+I used the signal received from the push button to determine if the anchor is dropped or not.
+used the input in the constrains of the blocks.
 ### OPEN SEA
+This is the normal mode of the ship.
+the constrains of this block contain the data of the anchor and the time in storm and Charybdis.
+this runs only when time in storm and Charybdis is less than 5 sec and when the ship is not anchored
 
-This is the default state when the simulation starts.
-
-The ship remains in OPEN SEA while no danger is detected and the anchor is not dropped.
-
-### ANCHOR DROPPED
-
-The push button controls the anchor.
-
-Pressing the button once drops the anchor, and pressing it again raises the anchor.
-
-While the anchor is dropped, the ship is protected from the dangers detected by the sensors.
 
 ### STORM
 
@@ -170,21 +158,5 @@ If STORM and CHARYBDIS are triggered at the same time, the state that is entered
 
 The system uses the thresholds specified in the task:
 
-- Storm: light sensor reading below half
-- Charybdis: distance below 100 cm
-
----
-
-## Results
-
-The completed system demonstrates the required state transitions and uses the LCD, LED, buzzer, sensors, and push button according to their assigned functions.
-
-Screenshots of the Tinkercad wiring and working system are included in the repository.
-
----
-
-## Conclusion
-
-Task 2 was completed by first building the required circuit in Tinkercad and then programming the Arduino as a state machine.
-
-The system uses sensor inputs and the push button to determine the ship's current condition and provides appropriate outputs through the LCD, LED, and buzzer.
+- Storm: light sensor reading below half 
+- Charybdis: distance below 100cm
