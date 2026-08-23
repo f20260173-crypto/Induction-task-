@@ -1,0 +1,115 @@
+GOOGLE COLAB CODE:
+#featching the data from the csv
+from google.colab import files
+#storing the data in a variable named depth_data
+depth_data=files.upload()
+#importing libraries
+#pandas used to read the csv and using pd as an alias
+import pandas as pd
+#numpy used to find null values
+import numpy as np
+#matplotlib used to plot the graph
+import matplotlib.pyplot as plt
+#importing animation from matplotlib to animate the graph
+from matplotlib.animation import FuncAnimation
+#importing HTML to display the graph
+from IPython.display import HTML
+
+#Redaing and storing the data from the csv file into data
+data=pd.read_csv("Depth Data.csv")
+
+
+#Creating copy of the data to clean it
+clean_data=data.copy()
+print(clean_data.columns)
+
+#calculating the absolute change in deapth between two points
+#changing the data type in depth from string to numeric which an be subtracted
+#error coerce changes the unknown values into Nan
+clean_data["Depth (m)"] = pd.to_numeric(clean_data["Depth (m)"],errors="coerce")
+clean_data["Change"] = clean_data['Depth (m)'].diff()
+clean_data["Absolute Change"]=clean_data["Change"].abs()
+
+#Keeping the maximum diffrence possible to be 25 meters
+threshold=25
+suspicious_data=clean_data[clean_data["Absolute Change"]>threshold]
+
+#Removing the suspicious readings
+clean_data.loc[
+    clean_data["Absolute Change"] > threshold,
+    "Depth (m)"
+] = np.nan
+#Adding the data to thr Nan values be estimating the data(average) from its neighbors
+#interpolate() estimates the missing values
+clean_data["Depth (m)"] = clean_data["Depth (m)"].interpolate()
+
+#Smoothing the data by taking the averege of 5 values
+clean_data["Smoothed Depth (m)"] = (clean_data["Depth (m)"].rolling(window=5, center=True).mean())
+
+#Assigning the time to each data point to imitate real sensor
+#point=1 corresponds to time=0
+clean_data["Time (s)"]=clean_data["Point"]-1
+
+#CREATING THE GRAPH
+#Defining the size of the graph
+plt.figure(figsize=(12, 6))
+
+plt.plot(clean_data["Time (s)"],clean_data["Smoothed Depth (m)"],linewidth=2)
+#X&Y axis labels
+plt.xlabel("Time (s)", fontsize=12)
+
+plt.ylabel("Depth (m)", fontsize=12)
+#Title of the graph
+plt.title("Ship Depth vs Time",fontsize=16)
+#Displaying the grid
+plt.grid(True,linestyle="--",alpha=0.5)
+
+plt.tight_layout()
+
+plt.show()
+
+#ANIMATING THE DEPTH-TIME GRAPH
+#Creating the canvas of the graph
+fig, ax = plt.subplots(figsize=(12, 6))
+#Setting the limits of X&Y axis
+ax.set_xlim(clean_data["Time (s)"].min(),clean_data["Time (s)"].max())
+ax.set_ylim(clean_data["Smoothed Depth (m)"].min() - 5,clean_data["Smoothed Depth (m)"].max() + 5)
+
+#Setting the X&Y axis labels
+ax.set_xlabel("Time (seconds)", fontsize=12)
+ax.set_ylabel("Depth (m)", fontsize=12)
+
+#Setting the title of the graph
+ax.set_title("Ship Depth vs Time - Live Sensor Data",fontsize=16)
+
+#Adding the grid
+ax.grid(True,linestyle="--",alpha=0.5)
+#Making the line
+line, = ax.plot([], [], linewidth=2)
+
+#Making a function to add points to the line
+def update(frame):
+
+    x = clean_data["Time (s)"].iloc[:frame]
+
+    y = clean_data["Smoothed Depth (m)"].iloc[:frame]
+
+    line.set_data(x, y)
+
+    return line
+
+#Creating the animation
+animation = FuncAnimation(
+    fig,
+    update,
+    frames=(len(clean_data) +1),
+    interval=1000,
+    blit=False
+)
+#Displaying the animation
+plt.close(fig)
+
+HTML(animation.to_jshtml())
+
+
+
